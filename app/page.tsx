@@ -1,4 +1,4 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
 
@@ -120,7 +120,7 @@ const Page = () => {
         );
 
         setIsEditDialogOpen(false);
-      }
+      } // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || "Failed to update transaction"
@@ -141,7 +141,7 @@ const Page = () => {
       toast.success("Transaction deleted successfully!");
       setTransactions((prevTransactions) =>
         prevTransactions.filter((t) => t._id !== transactionToDelete)
-      );
+      ); // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error("Failed to delete transaction");
     } finally {

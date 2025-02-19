@@ -1,6 +1,6 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { Transaction } from "@/lib/models/transaction";
 

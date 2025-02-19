@@ -1,4 +1,4 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { connectDB } from "@/lib/db";
 import { Transaction } from "@/lib/models/transaction";

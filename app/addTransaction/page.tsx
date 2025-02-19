@@ -1,4 +1,4 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
 
@@ -54,7 +54,7 @@ const AddTransaction = () => {
       if (response.status === 201) {
         toast.success("Transaction added successfully!");
         router.push("/");
-      }
+      } // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to add transaction");
     } finally {
