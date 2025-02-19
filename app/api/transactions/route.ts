@@ -1,4 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+// @ts-ignore
+
+import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { Transaction } from "@/lib/models/transaction";
 
