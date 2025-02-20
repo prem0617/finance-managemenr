@@ -30,6 +30,8 @@ import { Pencil, Trash2, Plus, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import MonthlyExpensesChart from "@/components/custom/MonthlyExpensesChart";
+import CategoryExpensesChart from "@/components/custom/CategoryExpensesChart";
+import DashboardSummary from "@/components/custom/DashboardSummary";
 
 const Page = () => {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
@@ -52,6 +54,7 @@ const Page = () => {
       setIsLoading(true);
       const response = await axios.get("/api/transactions");
       setTransactions(response?.data?.transactions || []); // Handle potential undefined
+      console.log(response);
     } catch (error) {
       console.error(error); // Use console.error for better error handling
       toast.error("Failed to fetch transactions");
@@ -164,7 +167,14 @@ const Page = () => {
         </div>
 
         {!isLoading && transactions.length > 0 && (
-          <MonthlyExpensesChart transactions={transactions} />
+          <DashboardSummary transactions={transactions} />
+        )}
+
+        {!isLoading && transactions.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <MonthlyExpensesChart transactions={transactions} />
+            <CategoryExpensesChart transactions={transactions} />
+          </div>
         )}
 
         {isLoading ? (

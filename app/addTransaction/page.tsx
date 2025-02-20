@@ -18,6 +18,24 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const expenseCategories = [
+  { name: "Rent/Mortgage" },
+  { name: "Groceries" },
+  { name: "Transportation" },
+  { name: "Entertainment" },
+  { name: "Shopping" },
+  { name: "Travel & Vacations" },
+  { name: "Health & Medical Expenses" },
+  { name: "Education & Courses" },
+];
 
 const AddTransaction = () => {
   const router = useRouter();
@@ -26,6 +44,7 @@ const AddTransaction = () => {
     amount: "",
     date: new Date().toISOString().split("T")[0],
     description: "",
+    category: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +52,13 @@ const AddTransaction = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleCategoryChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      category: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,6 +75,7 @@ const AddTransaction = () => {
         amount: parseFloat(formData.amount),
         date: new Date(formData.date),
         description: formData.description,
+        category: formData.category,
       });
 
       if (response.status === 201) {
@@ -114,6 +141,27 @@ const AddTransaction = () => {
                   className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   required
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="category" className="text-gray-700">
+                  Category
+                </Label>
+                <Select
+                  value={formData.category}
+                  onValueChange={handleCategoryChange}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {expenseCategories.map((category, index) => (
+                      <SelectItem key={index} value={category.name}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">

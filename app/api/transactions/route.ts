@@ -20,16 +20,21 @@ export async function POST(req: Request) {
     await connectDB();
 
     const body = await req.json();
-    const { amount, date, description } = body;
+    const { amount, date, description, category } = body;
 
-    if (!amount || !date || !description) {
+    if (!amount || !date || !description || !category) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
       );
     }
     //And mand ka tola dola , jo na nacha ....
-    const newTransaction = new Transaction({ amount, date, description });
+    const newTransaction = new Transaction({
+      amount,
+      date,
+      description,
+      category,
+    });
     await newTransaction.save();
 
     return NextResponse.json(
