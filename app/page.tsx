@@ -48,6 +48,8 @@ const Page = () => {
   const [transactionToDelete, setTransactionToDelete] = useState<string | null>(
     null
   );
+  const [updatetransactionLoading, setUpdatetransactionLoading] =
+    useState<Boolean>(false);
 
   const fetchTransactions = async () => {
     try {
@@ -97,6 +99,7 @@ const Page = () => {
     if (!selectedTransaction) return;
 
     try {
+      setUpdatetransactionLoading(true);
       const response = await axios.put(
         `/api/transactions/${selectedTransaction._id}`, // This is correct
         {
@@ -128,6 +131,8 @@ const Page = () => {
       toast.error(
         error.response?.data?.message || "Failed to update transaction"
       );
+    } finally {
+      setUpdatetransactionLoading(false);
     }
   };
 
@@ -297,12 +302,22 @@ const Page = () => {
                   />
                 </div>
                 <DialogFooter>
-                  <Button
-                    type="submit"
-                    className="bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-                  >
-                    Save changes
-                  </Button>
+                  {updatetransactionLoading ? (
+                    <Button
+                      type="submit"
+                      disabled
+                      className="bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                    >
+                      <Loader2 className="animate-spin" /> Loading
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      className="bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                    >
+                      Save changes
+                    </Button>
+                  )}
                 </DialogFooter>
               </form>
             )}

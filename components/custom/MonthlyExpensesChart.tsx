@@ -17,34 +17,29 @@ interface MonthlyExpensesChartProps {
 
 const MonthlyExpensesChart = ({ transactions }: MonthlyExpensesChartProps) => {
   const monthlyData = useMemo(() => {
-    const monthlyTotals: { [key: string]: number } = {};
+    const totals = {};
 
-    transactions.forEach((transaction) => {
-      const date = new Date(transaction.date);
-      const monthYear = date.toLocaleString("en-US", {
+    transactions.forEach(({ date, amount }) => {
+      const monthYear = new Date(date).toLocaleString("en-IN", {
         month: "short",
         year: "numeric",
+        timeZone: "Asia/Kolkata",
       });
-
-      monthlyTotals[monthYear] =
-        (monthlyTotals[monthYear] || 0) + transaction.amount;
+      totals[monthYear] = (totals[monthYear] || 0) + amount;
     });
 
-    const sortedData = Object.entries(monthlyTotals)
-      .map(([month, amount]) => ({
-        month,
-        amount: Number(amount.toFixed(2)),
-      }))
-      .sort((a, b) => {
-        const [monthA, yearA] = a.month.split(" ");
-        const [monthB, yearB] = b.month.split(" ");
-        return (
-          new Date(`${monthA} 1, ${yearA}`).getTime() -
-          new Date(`${monthB} 1, ${yearB}`).getTime()
-        );
-      });
+    let monthlyArray = Object.entries(totals).map(([month, amount]) => ({
+      month,
+      amount: Number((amount as number).toFixed(2)),
+    }));
 
-    return sortedData;
+    const sortedArray = monthlyArray.sort((a, b) => {
+      const dateA = new Date(a.month).getTime();
+      const dateB = new Date(b.month).getTime();
+      return dateA - dateB;
+    });
+
+    return sortedArray;
   }, [transactions]);
 
   const formatCurrency = (value: number) => {
