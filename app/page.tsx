@@ -95,7 +95,7 @@ const Page = () => {
 
     try {
       const response = await axios.put(
-        `/api/transactions/${selectedTransaction._id}`,
+        `/api/transactions/${selectedTransaction._id}`, // This is correct
         {
           amount: parseFloat(editFormData.amount),
           date: new Date(editFormData.date),

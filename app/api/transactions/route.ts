@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
+    //And mand ka tola dola , jo na nacha ....
     const newTransaction = new Transaction({ amount, date, description });
     await newTransaction.save();
 

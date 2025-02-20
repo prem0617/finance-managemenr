@@ -2,16 +2,18 @@
 
 import { connectDB } from "@/lib/db";
 import { Transaction } from "@/lib/models/transaction";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
     // console.log(params, "PARAMS");
+    const params = await context.params;
     const { id } = params;
+
     // console.log(id);
     const body = await req.json();
     const { amount, date, description } = body;
@@ -54,10 +56,11 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
+    const params = await context.params;
     const { id } = params;
 
     const deletedTransaction = await Transaction.findByIdAndDelete(id);
