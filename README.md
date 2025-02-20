@@ -2,11 +2,17 @@
 
 A simple web application to track personal finances with basic transaction tracking.
 
-## 🚀 Features (Stage 1)
-- ✅ Add/Edit/Delete transactions (amount, date, description)
-- ✅ View transaction list
-- ✅ Monthly expenses bar chart
-- ✅ Basic form validation
+🚀 Features (Stage 1 & Stage 2)
+Stage 1: Basic Transaction Tracking
+✅ Add/Edit/Delete transactions (amount, date, description)
+✅ View transaction list
+✅ Monthly expenses bar chart
+✅ Basic form validation
+
+Stage 2: Categories
+✅ Predefined categories for transactions
+✅ Category-wise pie chart
+✅ Dashboard with summary cards:Total expenses,Category breakdown,Most recent transactions
 
 ---
 
