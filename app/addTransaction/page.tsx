@@ -15,7 +15,7 @@ import {
 import { ArrowLeft, Plus, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {
@@ -25,20 +25,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const expenseCategories = [
-  { name: "Rent/Mortgage" },
-  { name: "Groceries" },
-  { name: "Transportation" },
-  { name: "Entertainment" },
-  { name: "Shopping" },
-  { name: "Travel & Vacations" },
-  { name: "Health & Medical Expenses" },
-  { name: "Education & Courses" },
-];
+import { ICategory } from "@/types/types";
 
 const AddTransaction = () => {
   const router = useRouter();
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     amount: "",
@@ -88,6 +79,21 @@ const AddTransaction = () => {
       setIsLoading(false);
     }
   };
+
+  const fetchCategory = async () => {
+    try {
+      const response = await axios.get("/api/category");
+      setCategories(response?.data?.allCategory);
+    } catch (error) {
+      console.log(error.response?.data?.message || "Failed to fetch category");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
+  // console.log(categories);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
@@ -155,7 +161,7 @@ const AddTransaction = () => {
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {expenseCategories.map((category, index) => (
+                    {categories.map((category, index) => (
                       <SelectItem key={index} value={category.name}>
                         {category.name}
                       </SelectItem>

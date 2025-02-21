@@ -21,7 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
-import { Transactions } from "@/types/types";
+import { ICategory, Transactions } from "@/types/types";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -32,6 +32,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import MonthlyExpensesChart from "@/components/custom/MonthlyExpensesChart";
 import CategoryExpensesChart from "@/components/custom/CategoryExpensesChart";
 import DashboardSummary from "@/components/custom/DashboardSummary";
+import BudgetByCategory from "@/components/custom/BudgetByCategory";
 
 const Page = () => {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
@@ -161,14 +162,22 @@ const Page = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center md:mb-8 flex-col gap-4 md:flex-row">
+        <div className="flex justify-between items-center mb-8 flex-col gap-4 md:flex-row">
           <h1 className="text-4xl font-bold text-gray-800">Transactions</h1>
-          <Link href="/addTransaction">
-            <Button className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors">
-              <Plus className="h-4 w-4" />
-              Add Transaction
-            </Button>
-          </Link>
+          <div className="flex gap-5">
+            <Link href="/addTransaction">
+              <Button className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+                <Plus className="h-4 w-4" />
+                Add Transaction
+              </Button>
+            </Link>
+            <Link href="/budget">
+              <Button className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+                <Plus className="h-4 w-4" />
+                Budget
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {!isLoading && transactions.length > 0 && (
@@ -180,6 +189,10 @@ const Page = () => {
             <MonthlyExpensesChart transactions={transactions} />
             <CategoryExpensesChart transactions={transactions} />
           </div>
+        )}
+
+        {!isLoading && transactions.length > 0 && (
+          <BudgetByCategory transactions={transactions} />
         )}
 
         {isLoading ? (

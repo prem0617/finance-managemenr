@@ -1,9 +1,7 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { ITransaction } from "@/types/types";
 
-export interface ITransactionDocument extends Document, ITransaction {}
-
-const TransactionSchema = new Schema<ITransactionDocument>({
+const TransactionSchema = new Schema<ITransaction>({
   amount: { type: Number, required: true },
   date: { type: Date, required: true },
   description: { type: String, required: true },
@@ -12,5 +10,5 @@ const TransactionSchema = new Schema<ITransactionDocument>({
 
 // Using mongoose.models.Transaction with proper typing
 export const Transaction =
-  (mongoose.models.Transaction as mongoose.Model<ITransactionDocument>) ||
-  mongoose.model<ITransactionDocument>("Transaction", TransactionSchema);
+  (mongoose.models.Transaction as mongoose.Model<ITransaction>) ||
+  mongoose.model<ITransaction>("Transaction", TransactionSchema);
